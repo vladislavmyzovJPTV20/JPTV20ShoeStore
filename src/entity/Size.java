@@ -11,25 +11,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/**
- *
- * @author pupil
- */
 @Entity
 public class Size implements Serializable{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int numbersuze;
+    private int shoesSize;
 
     public Size() {
-    }
-    
-    public int getNumbersuze() {
-        return numbersuze;
+    }   
+ 
+    public int getShoesSize() {
+        return shoesSize;
     }
 
-    public void setNumbersuze(int numbersuze) {
-        this.numbersuze = numbersuze;
+    public void setShoesSize(int shoesSize) {
+        this.shoesSize = shoesSize;
+    }
+
+    @Override
+    public String toString() {
+        return "Size{" + "shoesSize=" + shoesSize + '}';
     }
 
     public Long getId() {
@@ -38,10 +39,5 @@ public class Size implements Serializable{
 
     public void setId(Long id) {
         this.id = id;
-    }
-    
-    @Override
-    public String toString() {
-        return "" + numbersuze;
     }
 }

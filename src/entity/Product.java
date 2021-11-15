@@ -67,14 +67,6 @@ public class Product implements Serializable{
         this.manufacturer = manufacturer;
     }
 
-    public List<Size> getSize() {
-        return size;
-    }
-
-    public void setSize(List<Size> size) {
-        this.size = size;
-    }
-
     public double getPrice() {
         return price;
     }
@@ -107,10 +99,20 @@ public class Product implements Serializable{
         this.count = count;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" + ", productname=" + productname + ", model=" + model + ", color=" + color + ", manufacturer=" + manufacturer + ", size=" + size + ", price=" + price + ", quantity=" + quantity + ", count=" + count + '}';
+    public List<Size> getSize() {
+        return size;
+    }
+
+    public void setSize(List<Size> size) {
+        this.size = size;
     }
     
+    @Override
+    public String toString() {
+        return "Product{" + ", productname=" + productname + ", model=" + model + ", color=" + color + ", manufacturer=" + manufacturer + ", size=" + Arrays.toString(size.toArray()) + ", price=" + price + ", quantity=" + quantity + ", count=" + count + '}';
+    }
     
+    public void setSize(Size[] sizes) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
