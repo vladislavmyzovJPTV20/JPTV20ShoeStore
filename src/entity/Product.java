@@ -3,21 +3,37 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package myclasses;
+package entity;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author pupil
  */
-public class Product {
+@Entity
+public class Product implements Serializable{
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String productname;
     private String model;
     private String color;
     private String manufacturer;
-    private Size[] size;
+    @OneToOne
+    private List<Size> size;
     private double price;
+    private int quantity;
+    private int count;
+
+    public Product() {
+    }
 
     public String getProductname() {
         return productname;
@@ -51,11 +67,11 @@ public class Product {
         this.manufacturer = manufacturer;
     }
 
-    public Size[] getSize() {
+    public List<Size> getSize() {
         return size;
     }
 
-    public void setSize(Size[] size) {
+    public void setSize(List<Size> size) {
         this.size = size;
     }
 
@@ -67,8 +83,34 @@ public class Product {
         this.price = price;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     @Override
     public String toString() {
-        return "Тип обуви: " + productname + ". Модель обуви: " + model + ". Цвет обуви: " + color + ". Производитель: " + manufacturer + ". Размер: " + Arrays.toString(size) + ". Цена: " + price;
+        return "Product{" + ", productname=" + productname + ", model=" + model + ", color=" + color + ", manufacturer=" + manufacturer + ", size=" + size + ", price=" + price + ", quantity=" + quantity + ", count=" + count + '}';
     }
+    
+    
 }
