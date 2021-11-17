@@ -121,9 +121,17 @@ public class App {
             }
         }while("r".equals(repeat));
     }
+    
+    private boolean quit(){
+        System.out.println("Чтобы закончить операцию нажмите \"q\", для продолжения любой другой символ");
+        String quit = scanner.nextLine();
+        if("q".equals(quit)) return true;
+      return false;
+    }
+    
     private void printIncomeShop(){
         double income = 0;
-        for(int i = 0; i < products.size();i++){
+        for(int i = 0; i < histories.size();i++){
             if(histories.get(i) != null){
                 income += histories.get(i).getProduct().getPrice();
                 System.out.println("Доход за всё время: "+ income +" €");
@@ -204,16 +212,26 @@ public class App {
         System.out.println("Введите номер покупателя: ");
         int numberCustomer = insertNumber(setNumbersCustomers);
         history.setProduct(products.get(numberProducts-1));
-        if(products.get(numberProducts - 1).getCount() > 0){
-            products.get(numberProducts - 1).setCount(products.get(numberProducts - 1).getCount()-1);
+        if(products.get(numberProducts-1).getPrice() < customers.get(numberCustomer -1).getMoney()){
+            if(products.get(numberProducts - 1).getCount() > 0){
+                products.get(numberProducts - 1).setCount(products.get(numberProducts - 1).getCount()-1);
+                double price = customers.get(numberCustomer - 1).getMoney()-products.get(numberProducts-1).getPrice();       
+                customers.get(numberCustomer - 1).setMoney(price);
+                history.setCustomer(customers.get(numberCustomer-1));
+                Calendar c = new GregorianCalendar();
+                history.setPurchaseDate(c.getTime());
+                keeper.saveProducts(products);
+                histories.add(history);
+                keeper.saveHistories(histories);
+                keeper.saveCustomers(customers);
+                System.out.println("Спасибо за покупку!");
+            }            
         }
-        history.setCustomer(customers.get(numberCustomer-1));
-        Calendar c = new GregorianCalendar();
-        history.setPurchaseDate(c.getTime());
-        keeper.saveProducts(products);
-        histories.add(history);
-        keeper.saveHistories(histories);
+        else{
+            System.out.println("У Вас недостаточно средств для покупки обуви!");
+        }
     }
+
 
     private int getNumber() {
         do{
@@ -442,5 +460,48 @@ public class App {
             customers.get(numСustomer - 1).setMoney(scanner.nextDouble()); scanner.nextLine();
         }
         keeper.saveCustomers(customers);
+    }
+
+    private void returnProduct() {
+        System.out.println("Список обуви: ");
+        if(quit()) return;
+        Set<Integer> numbersGivenProducts = printGivenProducts();
+        if(numbersGivenProducts.isEmpty()){
+            return;
+        }
+        int historyNumber = insertNumber(numbersGivenProducts);
+        Calendar c = new GregorianCalendar();
+        histories.get(historyNumber - 1).setReturnedDate(c.getTime());
+        for (int i = 0; i < products.size(); i++) {
+          if(products.get(i).getProductname().equals(histories.get(historyNumber-1).getProduct().getProductname())){
+            products.get(i).setCount(products.get(i).getCount()+1);
+          }
+        }
+        keeper.saveProducts(products);
+        keeper.saveHistories(histories);
+    }
+    
+    private Set<Integer> printGivenProducts(){
+        System.out.println("Список выданной обуви: ");
+        Set<Integer> setNumberGivenProducts = new HashSet<>();
+        for (int i = 0; i < histories.size(); i++) {
+            if(histories.get(i) != null 
+                    && histories.get(i).getReturnedDate() == null
+                    && histories.get(i).getProduct().getCount()
+                        <histories.get(i).getProduct().getQuantity()
+                    ){
+                System.out.printf("%d. Обувь: %s купил %s %s%n",
+                        i+1,
+                        histories.get(i).getProduct().getProductname(),
+                        histories.get(i).getCustomer().getFirstname(),
+                        histories.get(i).getCustomer().getLastname()
+                );
+                setNumberGivenProducts.add(i+1);
+            }
+        }
+        if(setNumberGivenProducts.isEmpty()){
+            System.out.println("нет купленной обуви");
+        }
+        return setNumberGivenProducts;
     }
 }
