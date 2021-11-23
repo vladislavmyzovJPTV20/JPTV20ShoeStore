@@ -505,7 +505,7 @@ public class App {
         System.out.println("Хотите изменить нажмите 1, оставить без изменения 2");
         int change = insertNumber(setNum);
         if(1 == change){
-            System.out.println("Введите новый размер обуви: ");
+            System.out.println("Введите новый размер: ");
             sizes.get(numSize - 1).setShoesSize(scanner.nextInt());
         }
         keeper.saveSizes(sizes);
