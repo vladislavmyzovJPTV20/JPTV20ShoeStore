@@ -57,6 +57,7 @@ public class App {
             System.out.println("9: Доход магазина за определенный месяц работы");
             System.out.println("10: Изменить данные обуви");
             System.out.println("11: Изменить данные покупателя");
+            System.out.println("12: Изменить размер обуви");
             int task = scanner.nextInt(); scanner.nextLine();
             switch(task){
                 case 0:
@@ -113,6 +114,11 @@ public class App {
                 case 11:
                     System.out.println("----- Изменить покупателя -----");
                     updateCustomer();
+                    System.out.println("-------------------------------");
+                    break;
+                case 12:
+                    System.out.println("----- Изменить размер обуви -----");
+                    updateSize();
                     System.out.println("-------------------------------");
                     break;
                 default:
@@ -344,7 +350,7 @@ public class App {
     }
 
     private void updateProducts() {
-        Set<Integer> setNumbersProducts = printListProducts();
+        Set<Integer> setNumbersProducts = printListAllProducts();
         if(setNumbersProducts.isEmpty()){
             System.out.println("Нет обуви в базе данных!");
             return;
@@ -394,12 +400,52 @@ public class App {
         change = insertNumber(setNum);
         if(1 == change){
             System.out.println("Введите новое количество обуви: ");
-            int quantity = getNumber();
-            int addCountProducts = quantity - products.get(numProduct - 1).getQuantity();
-            products.get(numProduct - 1).setQuantity(quantity);
-            products.get(numProduct - 1).setCount(products.get(numProduct - 1).getCount() + addCountProducts);
+            int oldCount = products.get(numProduct - 1).getCount();
+            int oldQuantity = products.get(numProduct - 1).getQuantity();
+            int newQuantity;
+            do {                
+                newQuantity = getNumber();
+                if(newQuantity >= 0 && newQuantity >= oldQuantity - oldCount){
+                    break;
+                }
+                System.out.println("Попробуй еще (>"+(oldQuantity - oldCount)+"): ");
+            } while (true);
+            int newCount = oldCount + (newQuantity - oldQuantity);
+            products.get(numProduct - 1).setQuantity(newQuantity);
+            products.get(numProduct - 1).setCount(newCount);
         }
         keeper.saveProducts(products);
+    }
+    
+   private Set<Integer> printListAllProducts() {
+        System.out.println("Список обуви: ");
+        products = keeper.loadProducts();
+        Set<Integer> setNumbersProducts = new HashSet<>();
+        for (int i = 0; i < products.size(); i++) {
+            StringBuilder cbSizes = new StringBuilder();
+            for (int j = 0; j < products.get(i).getSize().size(); j++) {
+                cbSizes.append(products.get(i).getSize().get(j).getShoesSize())
+                        .append(". ");
+            }
+            if(products.get(i) != null && products.get(i).getCount() >= 0){
+                System.out.printf("%d. Обувь %s. %s. Размер обуви: %s. В наличии экземпляров: %d%n"
+                        ,i+1
+                        ,products.get(i).getProductname()
+                        ,products.get(i).getModel()
+                        ,cbSizes.toString()
+                        ,products.get(i).getCount()
+                );
+                setNumbersProducts.add(i+1);
+            }else if(products.get(i) != null){
+                System.out.printf("%d. Обувь %s %s. Размер обуви: %s. Нет в наличии."
+                        ,i+1
+                        ,products.get(i).getProductname()
+                        ,products.get(i).getModel()
+                        ,cbSizes.toString()
+                );
+            }
+        }
+        return setNumbersProducts;        
     }
 
     private void updateCustomer() {
@@ -442,5 +488,26 @@ public class App {
             customers.get(numСustomer - 1).setMoney(scanner.nextDouble()); scanner.nextLine();
         }
         keeper.saveCustomers(customers);
+    }
+
+    private void updateSize() {
+        Set<Integer> setNumbersSizes = printListSizes();
+        if(setNumbersSizes.isEmpty()){
+            System.out.println("Нет размеров в базе");
+            return;
+        }
+        System.out.println("Выберите номер размера: ");
+        int numSize = insertNumber(setNumbersSizes);
+        Set<Integer> setNum = new HashSet<>();
+        setNum.add(1);
+        setNum.add(2);
+        System.out.println("Размер обуви: "+sizes.get(numSize - 1).getShoesSize());
+        System.out.println("Хотите изменить нажмите 1, оставить без изменения 2");
+        int change = insertNumber(setNum);
+        if(1 == change){
+            System.out.println("Введите новый размер обуви: ");
+            sizes.get(numSize - 1).setShoesSize(scanner.nextInt());
+        }
+        keeper.saveSizes(sizes);
     }
 }
