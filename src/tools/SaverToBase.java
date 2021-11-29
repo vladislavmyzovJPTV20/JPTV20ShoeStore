@@ -57,6 +57,8 @@ public class SaverToBase implements Keeping{
             for (int i = 0; i < customers.size(); i++) {
                 if(customers.get(i).getId() == null){
                     em.persist(customers.get(i));
+                }else{
+                    em.merge(customers.get(i));
                 }
             }
         tx.commit();
