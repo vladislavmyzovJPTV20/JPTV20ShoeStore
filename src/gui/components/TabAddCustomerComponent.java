@@ -72,7 +72,7 @@ public class TabAddCustomerComponent extends JPanel{
                     infoComponent.getInfo().setText("Введите телефон покупателя");
                     return;
                 }
-                customer.setLastname(phoneCustomer.getEditor().getText());               
+                customer.setPhone(phoneCustomer.getEditor().getText());               
                
                 try {
                     customer.setMoney(Integer.parseInt(moneyCustomer.getEditor().getText()));
