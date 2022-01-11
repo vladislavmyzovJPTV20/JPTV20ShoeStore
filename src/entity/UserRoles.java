@@ -12,6 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+/**
+ *
+ * @author Melnikov
+ */
 @Entity
 public class UserRoles {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +24,7 @@ public class UserRoles {
     private User user;
     @OneToOne
     private Role role;
-
+    
     public UserRoles() {
     }
 
@@ -51,9 +55,9 @@ public class UserRoles {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 67 * hash + Objects.hashCode(this.id);
-        hash = 67 * hash + Objects.hashCode(this.user);
-        hash = 67 * hash + Objects.hashCode(this.role);
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.user);
+        hash = 89 * hash + Objects.hashCode(this.role);
         return hash;
     }
 
@@ -82,5 +86,6 @@ public class UserRoles {
     public String toString() {
         return "UserRoles{" + "id=" + id + ", user=" + user.getLogin() + ", role=" + role.getRoleName() + '}';
     }
-    
+
+   
 }

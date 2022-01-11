@@ -18,6 +18,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
+/**
+ *
+ * @author Melnikov
+ */
 public class LoginComponent extends JFrame{
     private UserFacade userFacade;
     private UserRolesFacade userRolesFacade;

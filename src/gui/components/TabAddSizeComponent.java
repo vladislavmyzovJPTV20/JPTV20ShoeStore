@@ -35,15 +35,17 @@ public class TabAddSizeComponent extends JPanel{
         this.add(Box.createRigidArea(new Dimension(0,10)));  
         shoeSize = new EditComponent("Размер обуви:", widthPanel, 30, 300);
         this.add(shoeSize);
+        buttonComponent = new ButtonComponent("Добавить размер", 30, 350, 150);
+        this.add(buttonComponent);
         buttonComponent.getButton().addActionListener(ButtonAddReader());
     }
     private ActionListener ButtonAddReader(){
         return new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ex) {
-                Size sizes = new Size();
+                Size size = new Size();
                 try {
-                    sizes.setShoesSize(Integer.parseInt(shoeSize.getEditor().getText()));
+                    size.setShoesSize(Integer.parseInt(shoeSize.getEditor().getText()));
                 } catch (Exception e) {
                     infoComponent.getInfo().setForeground(Color.red);
                     infoComponent.getInfo().setText("Введите размер обуви (цифрами)");
@@ -51,7 +53,7 @@ public class TabAddSizeComponent extends JPanel{
                 }
                 SizeFacade sizeFacade = new SizeFacade(Size.class);
                 try {
-                    sizeFacade.create(sizes);
+                    sizeFacade.create(size);
                     infoComponent.getInfo().setForeground(Color.BLUE);
                     infoComponent.getInfo().setText("Размер обуви успешно добавлен");
                     shoeSize.getEditor().setText("");

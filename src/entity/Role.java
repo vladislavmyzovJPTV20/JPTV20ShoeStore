@@ -11,12 +11,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ *
+ * @author Melnikov
+ */
 @Entity
 public class Role {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String roleName;
-
+    
     public Role() {
     }
 
@@ -38,9 +42,9 @@ public class Role {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 47 * hash + Objects.hashCode(this.id);
-        hash = 47 * hash + Objects.hashCode(this.roleName);
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.id);
+        hash = 17 * hash + Objects.hashCode(this.roleName);
         return hash;
     }
 
@@ -66,5 +70,6 @@ public class Role {
     public String toString() {
         return "Role{" + "id=" + id + ", roleName=" + roleName + '}';
     }
+
     
 }

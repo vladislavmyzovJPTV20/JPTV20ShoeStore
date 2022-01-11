@@ -91,8 +91,8 @@ public class GuiApp extends JFrame{
             managerTabbed.setMinimumSize(managerTabbed.getPreferredSize());
             managerTabbed.setMaximumSize(managerTabbed.getPreferredSize());
             guiApp.add(managerTabbed);
-            TabAddProductComponent tabAddShoesComponent = new TabAddProductComponent(guiApp.getWidth());
-            managerTabbed.addTab("Добавить обувь", tabAddShoesComponent);
+            TabAddProductComponent tabAddProductComponent = new TabAddProductComponent(guiApp.getWidth());
+            managerTabbed.addTab("Добавить обувь", tabAddProductComponent);
             TabAddSizeComponent tabAddSizeComponent = new TabAddSizeComponent(guiApp.getWidth());
             managerTabbed.addTab("Добавить размер обуви", tabAddSizeComponent);
             TabAddCustomerComponent tabAddCustomerComponent = new TabAddCustomerComponent(guiApp.getWidth());
@@ -116,7 +116,7 @@ public class GuiApp extends JFrame{
         customer.setFirstname("Vladislav");
         customer.setLastname("Myzov");
         customer.setPhone("123454321");
-        customer.setMoney(50);
+        customer.setMoney(231321321);
         customerFacade.create(customer);
         
         User user = new User();
@@ -142,7 +142,7 @@ public class GuiApp extends JFrame{
         userRolesFacade.create(userRoles);
         
         role = new Role();
-        role.setRoleName("CUSTOMER");
+        role.setRoleName("READER");
         roleFacade.create(role);
         userRoles = new UserRoles();
         userRoles.setUser(user);

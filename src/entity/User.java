@@ -5,13 +5,16 @@
  */
 package entity;
 
-import entity.Customer;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ *
+ * @author Melnikov
+ */
 @Entity
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,10 +52,10 @@ public class User {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.id);
-        hash = 23 * hash + Objects.hashCode(this.login);
-        hash = 23 * hash + Objects.hashCode(this.password);
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.id);
+        hash = 13 * hash + Objects.hashCode(this.login);
+        hash = 13 * hash + Objects.hashCode(this.password);
         return hash;
     }
 
@@ -77,14 +80,6 @@ public class User {
         return true;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -100,8 +95,17 @@ public class User {
                 .append(" ")
                 .append(customer.getLastname())
                 .append("}");
-        
         return sb.toString();
+    }
+
+    
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
     
 }
