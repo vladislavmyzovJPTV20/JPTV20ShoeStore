@@ -35,7 +35,7 @@ public class ListProductsCellRenderer extends DefaultListCellRenderer{
                       .append(". ");
                 }
                 label.setText(String.format("%d. Название обуви: %s. Размер: %s Цвет: %s. Производитель: %s. Цена: %s. Экземпляры: %d."
-                        ,product.getId()
+                        ,index+1
                         ,product.getProductname()
                         ,sb.toString()
                         ,product.getColor()

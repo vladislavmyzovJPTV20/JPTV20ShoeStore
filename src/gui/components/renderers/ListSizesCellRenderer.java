@@ -24,7 +24,7 @@ public class ListSizesCellRenderer extends DefaultListCellRenderer{
                 JLabel label = (JLabel) component;
                 Size size = (Size) value;
                 label.setText(String.format("%d. %s."
-                        ,size.getId()
+                        ,index+1
                         ,size.getShoesSize()
                 ));
                 if(!isSelected){
