@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.components.customer;
+package gui.components.director;
 
-import gui.components.*;
 import entity.Product;
 import entity.Size;
 import facade.ProductFacade;
 import gui.GuiApp;
+import gui.components.ButtonComponent;
+import gui.components.CaptionComponent;
+import gui.components.EditComponent;
+import gui.components.InfoComponent;
+import gui.components.SizesComponent;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -20,7 +24,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 
-public class ReturnProductComponent extends JPanel{
+public class EditRoleComponent extends JPanel{
     private CaptionComponent captionComponent;
     private InfoComponent infoComponent;
     private EditComponent nameComponent;
@@ -32,7 +36,7 @@ public class ReturnProductComponent extends JPanel{
     private ButtonComponent buttonComponent;
     private SizesComponent listSizesComponent;
     
-    public ReturnProductComponent() {
+    public EditRoleComponent() {
         initComponents();
     }
 
