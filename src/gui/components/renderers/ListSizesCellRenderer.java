@@ -23,8 +23,7 @@ public class ListSizesCellRenderer extends DefaultListCellRenderer{
             if(component instanceof JLabel){
                 JLabel label = (JLabel) component;
                 Size size = (Size) value;
-                label.setText(String.format("%d. %s."
-                        ,index+1
+                label.setText(String.format("%s."
                         ,size.getShoesSize()
                 ));
                 if(!isSelected){

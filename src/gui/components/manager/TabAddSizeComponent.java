@@ -40,7 +40,7 @@ public class TabAddSizeComponent extends JPanel{
         this.add(Box.createRigidArea(new Dimension(0,10)));  
         shoeSize = new EditComponent("Размер обуви:", GuiApp.WIDTH_WINDOW, 30, 300);
         this.add(shoeSize);
-        buttonComponent = new ButtonComponent("Добавить размер", 30, 350, 150);
+        buttonComponent = new ButtonComponent("Добавить размер",GuiApp.WIDTH_WINDOW, 30, 350, 150);
         this.add(buttonComponent);
         buttonComponent.getButton().addActionListener(ButtonAddReader());
     }

@@ -29,13 +29,13 @@ public class ListProductsCellRenderer extends DefaultListCellRenderer{
             if(component instanceof JLabel){
                 JLabel label = (JLabel) component;
                 Product product = (Product) value;
+                if(product == null) return component;
                 StringBuilder sb = new StringBuilder();
                 for (Size size : product.getSize()) {
                     sb.append(size.getShoesSize())
                       .append(". ");
                 }
-                label.setText(String.format("%d. Название обуви: %s. Размер: %s Цвет: %s. Производитель: %s. Цена: %s. Экземпляры: %d."
-                        ,index+1
+                label.setText(String.format("Название обуви: %s. Размер: %s Цвет: %s. Производитель: %s. Цена: %s. Экземпляры: %d."
                         ,product.getProductname()
                         ,sb.toString()
                         ,product.getColor()

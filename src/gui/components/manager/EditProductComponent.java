@@ -11,6 +11,7 @@ import facade.ProductFacade;
 import gui.GuiApp;
 import gui.components.ButtonComponent;
 import gui.components.CaptionComponent;
+import gui.components.ComboBoxProductsComponent;
 import gui.components.EditComponent;
 import gui.components.InfoComponent;
 import gui.components.SizesComponent;
@@ -18,13 +19,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.ListModel;
 
 
 public class EditProductComponent extends JPanel{
+    public EditProductComponent editProductComponent = this;
     private CaptionComponent captionComponent;
     private InfoComponent infoComponent;
     private EditComponent nameComponent;
@@ -35,18 +40,26 @@ public class EditProductComponent extends JPanel{
     private EditComponent quantityComponent;
     private ButtonComponent buttonComponent;
     private SizesComponent listSizesComponent;
+    private ComboBoxProductsComponent comboBoxProductsComponent;
+    
+    private ProductFacade productFacade;
+    private Product editProduct;
     
     public EditProductComponent() {
+        productFacade = new ProductFacade(Product.class);
         initComponents();
     }
 
     private void initComponents() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(Box.createRigidArea(new Dimension(0,25)));
-        captionComponent = new CaptionComponent("Добавление обуви в магазин", GuiApp.WIDTH_WINDOW, 30);
+        captionComponent = new CaptionComponent("Редактирование обуви в магазине", GuiApp.WIDTH_WINDOW, 30);
         this.add(captionComponent);
         infoComponent = new InfoComponent("", GuiApp.WIDTH_WINDOW,27);
         this.add(infoComponent);
+        this.add(Box.createRigidArea(new Dimension(0,10)));
+        comboBoxProductsComponent = new ComboBoxProductsComponent("Обувь", 240, 30, 300);
+        this.add(comboBoxProductsComponent);
         this.add(Box.createRigidArea(new Dimension(0,10)));
         nameComponent = new EditComponent("Название обуви:", GuiApp.WIDTH_WINDOW, 30, 300);
         this.add(nameComponent);
@@ -62,42 +75,43 @@ public class EditProductComponent extends JPanel{
         this.add(listSizesComponent);
         quantityComponent = new EditComponent("Количество экземпляров:", GuiApp.WIDTH_WINDOW, 30, 50);
         this.add(quantityComponent);
-        buttonComponent = new ButtonComponent("Добавить обувь", GuiApp.WIDTH_WINDOW, 30, 350, 150);
+        buttonComponent = new ButtonComponent("Изменить обувь", GuiApp.WIDTH_WINDOW, 30, 350, 150);
         this.add(buttonComponent);
         buttonComponent.getButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Product product = new Product();
+                Product updateProduct = productFacade.find(editProduct.getId());
+                        
                 if(nameComponent.getEditor().getText().isEmpty()){
                     infoComponent.getInfo().setForeground(Color.red);
                     infoComponent.getInfo().setText("Введите название обуви");
                     return;
                 }
-                product.setProductname(nameComponent.getEditor().getText());
+                updateProduct.setProductname(nameComponent.getEditor().getText());
                 
                 if(shoesModel.getEditor().getText().isEmpty()){
                     infoComponent.getInfo().setForeground(Color.red);
                     infoComponent.getInfo().setText("Введите модель обуви");
                     return;
                 }
-                product.setModel(shoesModel.getEditor().getText());
+                updateProduct.setModel(shoesModel.getEditor().getText());
                 
                 if(shoesColor.getEditor().getText().isEmpty()){
                     infoComponent.getInfo().setForeground(Color.red);
                     infoComponent.getInfo().setText("Введите цвет обуви");
                     return;
                 }
-                product.setColor(shoesColor.getEditor().getText());
+                updateProduct.setColor(shoesColor.getEditor().getText());
                 
                 if(manufacturerComponent.getEditor().getText().isEmpty()){
                     infoComponent.getInfo().setForeground(Color.red);
                     infoComponent.getInfo().setText("Введите производителя обуви");
                     return;
                 }
-                product.setManufacturer(manufacturerComponent.getEditor().getText());
+                updateProduct.setManufacturer(manufacturerComponent.getEditor().getText());
                 
                 try {
-                    product.setPrice(Double.parseDouble(shoesPrice.getEditor().getText()));
+                    updateProduct.setPrice(Double.parseDouble(shoesPrice.getEditor().getText()));
                 } catch (Exception ex) {
                     infoComponent.getInfo().setForeground(Color.red);
                     infoComponent.getInfo().setText("Введите цену обуви");
@@ -109,10 +123,10 @@ public class EditProductComponent extends JPanel{
                     infoComponent.getInfo().setText("Выберите размеры обуви");
                     return;
                 }
-                product.setSize(sizesShoes);
+                updateProduct.setSize(sizesShoes);
                 try {
-                    product.setQuantity(Integer.parseInt(quantityComponent.getEditor().getText()));
-                    product.setCount(product.getQuantity());
+                    updateProduct.setQuantity(Integer.parseInt(quantityComponent.getEditor().getText()));
+                    updateProduct.setCount(updateProduct.getQuantity());
                 } catch (Exception ex) {
                     infoComponent.getInfo().setForeground(Color.red);
                     infoComponent.getInfo().setText("Введите количество обуви (цифрами)");
@@ -120,21 +134,54 @@ public class EditProductComponent extends JPanel{
                 }
                 ProductFacade productFacade = new ProductFacade(Product.class);
                 try {
-                    productFacade.create(product);
+                    productFacade.edit(updateProduct);
                     infoComponent.getInfo().setForeground(Color.BLUE);
-                    infoComponent.getInfo().setText("Обувь успешно добавлена");
-                    nameComponent.getEditor().setText("");
-                    shoesModel.getEditor().setText("");
-                    shoesColor.getEditor().setText("");
-                    manufacturerComponent.getEditor().setText("");
-                    shoesPrice.getEditor().setText("");
-                    quantityComponent.getEditor().setText("");
-                    listSizesComponent.getList().clearSelection();
+                    infoComponent.getInfo().setText("Обувь успешно изменена");
+                    comboBoxProductsComponent.getComboBox().setModel(comboBoxProductsComponent.getComboBoxModel());
+                    comboBoxProductsComponent.getComboBox().setSelectedIndex(-1);
+                    
+//                    nameComponent.getEditor().setText("");
+//                    shoesModel.getEditor().setText("");
+//                    shoesColor.getEditor().setText("");
+//                    manufacturerComponent.getEditor().setText("");
+//                    shoesPrice.getEditor().setText("");
+//                    quantityComponent.getEditor().setText("");
+//                    listSizesComponent.getList().clearSelection();
                 } catch (Exception ex) {
                     infoComponent.getInfo().setForeground(Color.RED);
-                    infoComponent.getInfo().setText("Обувь добавить не удалось");
+                    infoComponent.getInfo().setText("Обувь изменить не удалось");
                 }
             }
         });
-    }
+        comboBoxProductsComponent.getComboBox().addItemListener((ItemEvent e) -> {
+           JComboBox comboBox = (JComboBox) e.getSource();
+           if(comboBox.getSelectedIndex() == -1){
+                nameComponent.getEditor().setText("");
+                shoesModel.getEditor().setText("");
+                shoesColor.getEditor().setText("");
+                manufacturerComponent.getEditor().setText("");
+                shoesPrice.getEditor().setText("");
+                quantityComponent.getEditor().setText("");
+                listSizesComponent.getList().clearSelection();
+           }else{
+                editProduct = (Product) e.getItem();
+                nameComponent.getEditor().setText(editProduct.getProductname());
+                shoesModel.getEditor().setText(editProduct.getModel());
+                shoesColor.getEditor().setText(editProduct.getColor());
+                manufacturerComponent.getEditor().setText(editProduct.getManufacturer());
+                shoesPrice.getEditor().setText(((Double)editProduct.getPrice()).toString());
+                quantityComponent.getEditor().setText(((Integer)editProduct.getQuantity()).toString());
+                listSizesComponent.getList().clearSelection();
+                ListModel<Size> listModel = listSizesComponent.getList().getModel();
+                for (int i=0;i<listModel.getSize();i++) {
+                    if(editProduct.getSize().contains(listModel.getElementAt(i))){
+                        listSizesComponent.getList().getSelectionModel().addSelectionInterval(i, i);
+                    }
+                }
+           }
+        });
+}
+       
+    
+    
 }

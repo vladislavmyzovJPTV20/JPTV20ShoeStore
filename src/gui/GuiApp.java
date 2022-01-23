@@ -85,7 +85,7 @@ public class GuiApp extends JFrame{
             public void actionPerformed(ActionEvent e) {
               //Аутентификация
                 int widthLogin = 350;
-                int heightLogin = 260;
+                int heightLogin = 250;
                 JDialog dialogLogin = new JDialog(guiApp,"Введите логин и пароль",Dialog.ModalityType.DOCUMENT_MODAL);
                 dialogLogin.setPreferredSize(new Dimension(widthLogin,heightLogin));
                 dialogLogin.setMaximumSize(dialogLogin.getPreferredSize());
@@ -94,9 +94,9 @@ public class GuiApp extends JFrame{
                 dialogLogin.setLocationRelativeTo(null);
                 CaptionComponent captionComponent = new CaptionComponent("Введите логин и пароль", widthLogin, 27);
                 InfoComponent infoComponent = new InfoComponent("", widthLogin, 27);
-                EditComponent loginComponent = new EditComponent("Логин",200, 27, 120);
-                EditComponent passwordComponent = new EditComponent("Пароль", 200, 27, 120);
-                ButtonComponent enterComponent = new ButtonComponent("Войти", 27,180, 100);
+                EditComponent loginComponent = new EditComponent("Логин",80, 27, 200);
+                EditComponent passwordComponent = new EditComponent("Пароль", 80, 20, 200);
+                ButtonComponent enterComponent = new ButtonComponent("Войти",GuiApp.WIDTH_WINDOW, 27,180, 100);
                 dialogLogin.getContentPane().add(Box.createRigidArea(new Dimension(0,10)));
                 dialogLogin.getContentPane().add(captionComponent);
                 dialogLogin.getContentPane().add(Box.createRigidArea(new Dimension(0,5)));
