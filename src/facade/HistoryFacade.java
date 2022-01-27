@@ -5,6 +5,7 @@
  */
 package facade;
 
+import entity.Customer;
 import entity.History;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,16 @@ public class HistoryFacade extends AbstractFacade<History>{
         } catch (Exception e) {
             return new ArrayList<>();
         }
+    }
+    
+    public List<History> find(Customer customer) {
+            try {
+                return em.createQuery("SELECT h FROM History h WHERE h.customer=:customer AND h.returnedDate = null")
+                        .setParameter("customer", customer)
+                        .getResultList();
+            } catch (Exception e) {
+                return null;
+            }
     }
     
 }
